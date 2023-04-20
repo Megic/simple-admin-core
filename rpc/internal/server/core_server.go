@@ -13,7 +13,6 @@ import (
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/dictionary"
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/dictionarydetail"
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/menu"
-	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/menuparam"
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/oauthprovider"
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/position"
 	"github.com/suyuan32/simple-admin-core/rpc/internal/logic/role"
@@ -178,32 +177,6 @@ func (s *CoreServer) GetMenuList(ctx context.Context, in *core.PageInfoReq) (*co
 	return l.GetMenuList(in)
 }
 
-// MenuParam management
-func (s *CoreServer) CreateMenuParam(ctx context.Context, in *core.MenuParamInfo) (*core.BaseIDResp, error) {
-	l := menuparam.NewCreateMenuParamLogic(ctx, s.svcCtx)
-	return l.CreateMenuParam(in)
-}
-
-func (s *CoreServer) UpdateMenuParam(ctx context.Context, in *core.MenuParamInfo) (*core.BaseResp, error) {
-	l := menuparam.NewUpdateMenuParamLogic(ctx, s.svcCtx)
-	return l.UpdateMenuParam(in)
-}
-
-func (s *CoreServer) GetMenuParamList(ctx context.Context, in *core.MenuParamListReq) (*core.MenuParamListResp, error) {
-	l := menuparam.NewGetMenuParamListLogic(ctx, s.svcCtx)
-	return l.GetMenuParamList(in)
-}
-
-func (s *CoreServer) GetMenuParamById(ctx context.Context, in *core.IDReq) (*core.MenuParamInfo, error) {
-	l := menuparam.NewGetMenuParamByIdLogic(ctx, s.svcCtx)
-	return l.GetMenuParamById(in)
-}
-
-func (s *CoreServer) DeleteMenuParam(ctx context.Context, in *core.IDsReq) (*core.BaseResp, error) {
-	l := menuparam.NewDeleteMenuParamLogic(ctx, s.svcCtx)
-	return l.DeleteMenuParam(in)
-}
-
 // OauthProvider management
 func (s *CoreServer) CreateOauthProvider(ctx context.Context, in *core.OauthProviderInfo) (*core.BaseIDResp, error) {
 	l := oauthprovider.NewCreateOauthProviderLogic(ctx, s.svcCtx)
@@ -296,11 +269,6 @@ func (s *CoreServer) DeleteRole(ctx context.Context, in *core.IDsReq) (*core.Bas
 func (s *CoreServer) CreateToken(ctx context.Context, in *core.TokenInfo) (*core.BaseUUIDResp, error) {
 	l := token.NewCreateTokenLogic(ctx, s.svcCtx)
 	return l.CreateToken(in)
-}
-
-func (s *CoreServer) UpdateToken(ctx context.Context, in *core.TokenInfo) (*core.BaseResp, error) {
-	l := token.NewUpdateTokenLogic(ctx, s.svcCtx)
-	return l.UpdateToken(in)
 }
 
 func (s *CoreServer) DeleteToken(ctx context.Context, in *core.UUIDsReq) (*core.BaseResp, error) {

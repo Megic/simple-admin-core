@@ -42,7 +42,7 @@ func (Menu) Fields() []ent.Field {
 
 func (Menu) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixins.BaseMixin{},
+		mixins.BaseIDMixin{},
 		mixins.SortMixin{},
 	}
 }
@@ -51,7 +51,6 @@ func (Menu) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.From("roles", Role.Type).Ref("menus"),
 		edge.To("children", Menu.Type).From("parent").Unique().Field("parent_id"),
-		edge.To("params", MenuParam.Type),
 	}
 }
 

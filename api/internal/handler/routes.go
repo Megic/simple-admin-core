@@ -12,7 +12,6 @@ import (
 	dictionary "github.com/suyuan32/simple-admin-core/api/internal/handler/dictionary"
 	dictionarydetail "github.com/suyuan32/simple-admin-core/api/internal/handler/dictionarydetail"
 	menu "github.com/suyuan32/simple-admin-core/api/internal/handler/menu"
-	menuparam "github.com/suyuan32/simple-admin-core/api/internal/handler/menuparam"
 	oauthprovider "github.com/suyuan32/simple-admin-core/api/internal/handler/oauthprovider"
 	position "github.com/suyuan32/simple-admin-core/api/internal/handler/position"
 	role "github.com/suyuan32/simple-admin-core/api/internal/handler/role"
@@ -182,11 +181,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodGet,
 					Path:    "/menu/role/list",
 					Handler: menu.GetMenuListByRoleHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/menu",
-					Handler: menu.GetMenuByIdHandler(serverCtx),
 				},
 			}...,
 		),
@@ -360,11 +354,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				},
 				{
 					Method:  http.MethodPost,
-					Path:    "/token/update",
-					Handler: token.UpdateTokenHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
 					Path:    "/token/delete",
 					Handler: token.DeleteTokenHandler(serverCtx),
 				},
@@ -485,39 +474,10 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/dictionary_detail",
 					Handler: dictionarydetail.GetDictionaryDetailByIdHandler(serverCtx),
 				},
-			}...,
-		),
-		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
-	)
-
-	server.AddRoutes(
-		rest.WithMiddlewares(
-			[]rest.Middleware{serverCtx.Authority},
-			[]rest.Route{
 				{
-					Method:  http.MethodPost,
-					Path:    "/menu_param/create",
-					Handler: menuparam.CreateMenuParamHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/menu_param/update",
-					Handler: menuparam.UpdateMenuParamHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/menu_param/delete",
-					Handler: menuparam.DeleteMenuParamHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/menu_param/list",
-					Handler: menuparam.GetMenuParamListHandler(serverCtx),
-				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/menu_param",
-					Handler: menuparam.GetMenuParamByIdHandler(serverCtx),
+					Method:  http.MethodGet,
+					Path:    "/dict/:name",
+					Handler: dictionarydetail.GetDictionaryDetailByDictionaryNameHandler(serverCtx),
 				},
 			}...,
 		),

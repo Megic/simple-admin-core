@@ -11,7 +11,6 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/suyuan32/simple-admin-core/rpc/ent/menu"
-	"github.com/suyuan32/simple-admin-core/rpc/ent/menuparam"
 	"github.com/suyuan32/simple-admin-core/rpc/ent/role"
 )
 
@@ -345,21 +344,6 @@ func (mc *MenuCreate) AddChildren(m ...*Menu) *MenuCreate {
 	return mc.AddChildIDs(ids...)
 }
 
-// AddParamIDs adds the "params" edge to the MenuParam entity by IDs.
-func (mc *MenuCreate) AddParamIDs(ids ...uint64) *MenuCreate {
-	mc.mutation.AddParamIDs(ids...)
-	return mc
-}
-
-// AddParams adds the "params" edges to the MenuParam entity.
-func (mc *MenuCreate) AddParams(m ...*MenuParam) *MenuCreate {
-	ids := make([]uint64, len(m))
-	for i := range m {
-		ids[i] = m[i].ID
-	}
-	return mc.AddParamIDs(ids...)
-}
-
 // Mutation returns the MenuMutation object of the builder.
 func (mc *MenuCreate) Mutation() *MenuMutation {
 	return mc.mutation
@@ -623,10 +607,7 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 			Columns: menu.RolesPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeUint64,
-					Column: role.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(role.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -642,10 +623,7 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 			Columns: []string{menu.ParentColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeUint64,
-					Column: menu.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -662,29 +640,7 @@ func (mc *MenuCreate) createSpec() (*Menu, *sqlgraph.CreateSpec) {
 			Columns: []string{menu.ChildrenColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeUint64,
-					Column: menu.FieldID,
-				},
-			},
-		}
-		for _, k := range nodes {
-			edge.Target.Nodes = append(edge.Target.Nodes, k)
-		}
-		_spec.Edges = append(_spec.Edges, edge)
-	}
-	if nodes := mc.mutation.ParamsIDs(); len(nodes) > 0 {
-		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2M,
-			Inverse: false,
-			Table:   menu.ParamsTable,
-			Columns: []string{menu.ParamsColumn},
-			Bidi:    false,
-			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeUint64,
-					Column: menuparam.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(menu.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -719,8 +675,8 @@ func (mcb *MenuCreateBulk) Save(ctx context.Context) ([]*Menu, error) {
 					return nil, err
 				}
 				builder.mutation = mutation
-				nodes[i], specs[i] = builder.createSpec()
 				var err error
+				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
 					_, err = mutators[i+1].Mutate(root, mcb.builders[i+1].mutation)
 				} else {

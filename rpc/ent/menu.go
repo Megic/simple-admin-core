@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/suyuan32/simple-admin-core/rpc/ent/menu"
 )
@@ -64,7 +65,8 @@ type Menu struct {
 	RealPath string `json:"real_path,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the MenuQuery when eager-loading is set.
-	Edges MenuEdges `json:"edges"`
+	Edges        MenuEdges `json:"edges"`
+	selectValues sql.SelectValues
 }
 
 // MenuEdges holds the relations/edges for other nodes in the graph.
@@ -75,11 +77,9 @@ type MenuEdges struct {
 	Parent *Menu `json:"parent,omitempty"`
 	// Children holds the value of the children edge.
 	Children []*Menu `json:"children,omitempty"`
-	// Params holds the value of the params edge.
-	Params []*MenuParam `json:"params,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [4]bool
+	loadedTypes [3]bool
 }
 
 // RolesOrErr returns the Roles value or an error if the edge
@@ -113,15 +113,6 @@ func (e MenuEdges) ChildrenOrErr() ([]*Menu, error) {
 	return nil, &NotLoadedError{edge: "children"}
 }
 
-// ParamsOrErr returns the Params value or an error if the edge
-// was not loaded in eager-loading.
-func (e MenuEdges) ParamsOrErr() ([]*MenuParam, error) {
-	if e.loadedTypes[3] {
-		return e.Params, nil
-	}
-	return nil, &NotLoadedError{edge: "params"}
-}
-
 // scanValues returns the types for scanning values from sql.Rows.
 func (*Menu) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
@@ -136,7 +127,7 @@ func (*Menu) scanValues(columns []string) ([]any, error) {
 		case menu.FieldCreatedAt, menu.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
-			return nil, fmt.Errorf("unexpected column %q for type Menu", columns[i])
+			values[i] = new(sql.UnknownType)
 		}
 	}
 	return values, nil
@@ -294,9 +285,17 @@ func (m *Menu) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				m.RealPath = value.String
 			}
+		default:
+			m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
+}
+
+// Value returns the ent.Value that was dynamically selected and assigned to the Menu.
+// This includes values selected through modifiers, order, etc.
+func (m *Menu) Value(name string) (ent.Value, error) {
+	return m.selectValues.Get(name)
 }
 
 // QueryRoles queries the "roles" edge of the Menu entity.
@@ -312,11 +311,6 @@ func (m *Menu) QueryParent() *MenuQuery {
 // QueryChildren queries the "children" edge of the Menu entity.
 func (m *Menu) QueryChildren() *MenuQuery {
 	return NewMenuClient(m.config).QueryChildren(m)
-}
-
-// QueryParams queries the "params" edge of the Menu entity.
-func (m *Menu) QueryParams() *MenuParamQuery {
-	return NewMenuClient(m.config).QueryParams(m)
 }
 
 // Update returns a builder for updating this Menu.

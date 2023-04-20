@@ -296,6 +296,13 @@ func (l *InitDatabaseLogic) insertApiData() error {
 	// DICTIONARY
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
+		SetPath("/dictionary").
+		SetDescription("apiDesc.getDictionaryById").
+		SetAPIGroup("dictionary").
+		SetMethod("POST"),
+	)
+
+	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/dictionary/create").
 		SetDescription("apiDesc.createDictionary").
 		SetAPIGroup("dictionary").
@@ -319,6 +326,13 @@ func (l *InitDatabaseLogic) insertApiData() error {
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/dictionary_detail/delete").
 		SetDescription("apiDesc.deleteDictionaryDetail").
+		SetAPIGroup("dictionary").
+		SetMethod("POST"),
+	)
+
+	apis = append(apis, l.svcCtx.DB.API.Create().
+		SetPath("/dictionary_detail").
+		SetDescription("apiDesc.getDictionaryDetailById").
 		SetAPIGroup("dictionary").
 		SetMethod("POST"),
 	)
@@ -352,10 +366,10 @@ func (l *InitDatabaseLogic) insertApiData() error {
 	)
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
-		SetPath("/dict").
-		SetDescription("apiDesc.getUserById").
-		SetAPIGroup("user").
-		SetMethod("POST"),
+		SetPath("/dict/:name").
+		SetDescription("apiDesc.getDictionaryDetailByDictionaryName").
+		SetAPIGroup("dictionary").
+		SetMethod("GET"),
 	)
 
 	// OAUTH
@@ -560,35 +574,35 @@ func (l *InitDatabaseLogic) insertApiData() error {
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/task_log/create").
 		SetDescription("apiDesc.createTaskLog").
-		SetAPIGroup("tasklog").
+		SetAPIGroup("task_log").
 		SetMethod("POST"),
 	)
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/task_log/update").
 		SetDescription("apiDesc.updateTaskLog").
-		SetAPIGroup("tasklog").
+		SetAPIGroup("task_log").
 		SetMethod("POST"),
 	)
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/task_log/delete").
 		SetDescription("apiDesc.deleteTaskLog").
-		SetAPIGroup("tasklog").
+		SetAPIGroup("task_log").
 		SetMethod("POST"),
 	)
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/task_log/list").
 		SetDescription("apiDesc.getTaskLogList").
-		SetAPIGroup("tasklog").
+		SetAPIGroup("task_log").
 		SetMethod("POST"),
 	)
 
 	apis = append(apis, l.svcCtx.DB.API.Create().
 		SetPath("/task_log").
 		SetDescription("apiDesc.getTaskLogById").
-		SetAPIGroup("tasklog").
+		SetAPIGroup("task_log").
 		SetMethod("POST"),
 	)
 

@@ -94,10 +94,10 @@ type UUIDsReq {
     Ids []string `json:"ids"`
 }
 
-// The base response data | 基础信息
-type BaseInfo {
+// The base ID response data | 基础ID信息
+type BaseIDInfo {
     // ID
-    Id        uint64    `json:"id"`
+    Id uint64 `json:"id,optional"`
 
     // Create date | 创建日期
     CreatedAt int64     `json:"createdAt,optional"`
@@ -106,10 +106,10 @@ type BaseInfo {
     UpdatedAt int64     `json:"updatedAt,optional"`
 }
 
-// The base UUID response data | 基础信息
+// The base UUID response data | 基础UUID信息
 type BaseUUIDInfo {
     // ID
-    Id        string    `json:"id"`
+    Id string `json:"id,optional"`
 
     // Create date | 创建日期
     CreatedAt int64     `json:"createdAt,optional"`

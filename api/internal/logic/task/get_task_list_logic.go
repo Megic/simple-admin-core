@@ -3,7 +3,7 @@ package task
 import (
 	"context"
 
-	"github.com/suyuan32/simple-admin-job/job"
+	"github.com/suyuan32/simple-admin-job/types/job"
 
 	"github.com/suyuan32/simple-admin-core/api/internal/svc"
 	"github.com/suyuan32/simple-admin-core/api/internal/types"
@@ -44,7 +44,7 @@ func (l *GetTaskListLogic) GetTaskList(req *types.TaskListReq) (resp *types.Task
 	for _, v := range data.Data {
 		resp.Data.Data = append(resp.Data.Data,
 			types.TaskInfo{
-				BaseInfo: types.BaseInfo{
+				BaseIDInfo: types.BaseIDInfo{
 					Id:        v.Id,
 					CreatedAt: v.CreatedAt,
 					UpdatedAt: v.UpdatedAt,

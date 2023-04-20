@@ -82,17 +82,6 @@ type CoreClient interface {
 	GetMenuListByRole(ctx context.Context, in *BaseMsg, opts ...grpc.CallOption) (*MenuInfoList, error)
 	// group: menu
 	GetMenuList(ctx context.Context, in *PageInfoReq, opts ...grpc.CallOption) (*MenuInfoList, error)
-	// MenuParam management
-	// group: menuparam
-	CreateMenuParam(ctx context.Context, in *MenuParamInfo, opts ...grpc.CallOption) (*BaseIDResp, error)
-	// group: menuparam
-	UpdateMenuParam(ctx context.Context, in *MenuParamInfo, opts ...grpc.CallOption) (*BaseResp, error)
-	// group: menuparam
-	GetMenuParamList(ctx context.Context, in *MenuParamListReq, opts ...grpc.CallOption) (*MenuParamListResp, error)
-	// group: menuparam
-	GetMenuParamById(ctx context.Context, in *IDReq, opts ...grpc.CallOption) (*MenuParamInfo, error)
-	// group: menuparam
-	DeleteMenuParam(ctx context.Context, in *IDsReq, opts ...grpc.CallOption) (*BaseResp, error)
 	// OauthProvider management
 	// group: oauthprovider
 	CreateOauthProvider(ctx context.Context, in *OauthProviderInfo, opts ...grpc.CallOption) (*BaseIDResp, error)
@@ -133,8 +122,6 @@ type CoreClient interface {
 	// Token management
 	// group: token
 	CreateToken(ctx context.Context, in *TokenInfo, opts ...grpc.CallOption) (*BaseUUIDResp, error)
-	// group: token
-	UpdateToken(ctx context.Context, in *TokenInfo, opts ...grpc.CallOption) (*BaseResp, error)
 	// group: token
 	DeleteToken(ctx context.Context, in *UUIDsReq, opts ...grpc.CallOption) (*BaseResp, error)
 	// group: token
@@ -418,51 +405,6 @@ func (c *coreClient) GetMenuList(ctx context.Context, in *PageInfoReq, opts ...g
 	return out, nil
 }
 
-func (c *coreClient) CreateMenuParam(ctx context.Context, in *MenuParamInfo, opts ...grpc.CallOption) (*BaseIDResp, error) {
-	out := new(BaseIDResp)
-	err := c.cc.Invoke(ctx, "/core.Core/createMenuParam", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *coreClient) UpdateMenuParam(ctx context.Context, in *MenuParamInfo, opts ...grpc.CallOption) (*BaseResp, error) {
-	out := new(BaseResp)
-	err := c.cc.Invoke(ctx, "/core.Core/updateMenuParam", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *coreClient) GetMenuParamList(ctx context.Context, in *MenuParamListReq, opts ...grpc.CallOption) (*MenuParamListResp, error) {
-	out := new(MenuParamListResp)
-	err := c.cc.Invoke(ctx, "/core.Core/getMenuParamList", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *coreClient) GetMenuParamById(ctx context.Context, in *IDReq, opts ...grpc.CallOption) (*MenuParamInfo, error) {
-	out := new(MenuParamInfo)
-	err := c.cc.Invoke(ctx, "/core.Core/getMenuParamById", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *coreClient) DeleteMenuParam(ctx context.Context, in *IDsReq, opts ...grpc.CallOption) (*BaseResp, error) {
-	out := new(BaseResp)
-	err := c.cc.Invoke(ctx, "/core.Core/deleteMenuParam", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *coreClient) CreateOauthProvider(ctx context.Context, in *OauthProviderInfo, opts ...grpc.CallOption) (*BaseIDResp, error) {
 	out := new(BaseIDResp)
 	err := c.cc.Invoke(ctx, "/core.Core/createOauthProvider", in, out, opts...)
@@ -625,15 +567,6 @@ func (c *coreClient) CreateToken(ctx context.Context, in *TokenInfo, opts ...grp
 	return out, nil
 }
 
-func (c *coreClient) UpdateToken(ctx context.Context, in *TokenInfo, opts ...grpc.CallOption) (*BaseResp, error) {
-	out := new(BaseResp)
-	err := c.cc.Invoke(ctx, "/core.Core/updateToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *coreClient) DeleteToken(ctx context.Context, in *UUIDsReq, opts ...grpc.CallOption) (*BaseResp, error) {
 	out := new(BaseResp)
 	err := c.cc.Invoke(ctx, "/core.Core/deleteToken", in, out, opts...)
@@ -788,17 +721,6 @@ type CoreServer interface {
 	GetMenuListByRole(context.Context, *BaseMsg) (*MenuInfoList, error)
 	// group: menu
 	GetMenuList(context.Context, *PageInfoReq) (*MenuInfoList, error)
-	// MenuParam management
-	// group: menuparam
-	CreateMenuParam(context.Context, *MenuParamInfo) (*BaseIDResp, error)
-	// group: menuparam
-	UpdateMenuParam(context.Context, *MenuParamInfo) (*BaseResp, error)
-	// group: menuparam
-	GetMenuParamList(context.Context, *MenuParamListReq) (*MenuParamListResp, error)
-	// group: menuparam
-	GetMenuParamById(context.Context, *IDReq) (*MenuParamInfo, error)
-	// group: menuparam
-	DeleteMenuParam(context.Context, *IDsReq) (*BaseResp, error)
 	// OauthProvider management
 	// group: oauthprovider
 	CreateOauthProvider(context.Context, *OauthProviderInfo) (*BaseIDResp, error)
@@ -839,8 +761,6 @@ type CoreServer interface {
 	// Token management
 	// group: token
 	CreateToken(context.Context, *TokenInfo) (*BaseUUIDResp, error)
-	// group: token
-	UpdateToken(context.Context, *TokenInfo) (*BaseResp, error)
 	// group: token
 	DeleteToken(context.Context, *UUIDsReq) (*BaseResp, error)
 	// group: token
@@ -953,21 +873,6 @@ func (UnimplementedCoreServer) GetMenuListByRole(context.Context, *BaseMsg) (*Me
 func (UnimplementedCoreServer) GetMenuList(context.Context, *PageInfoReq) (*MenuInfoList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetMenuList not implemented")
 }
-func (UnimplementedCoreServer) CreateMenuParam(context.Context, *MenuParamInfo) (*BaseIDResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CreateMenuParam not implemented")
-}
-func (UnimplementedCoreServer) UpdateMenuParam(context.Context, *MenuParamInfo) (*BaseResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateMenuParam not implemented")
-}
-func (UnimplementedCoreServer) GetMenuParamList(context.Context, *MenuParamListReq) (*MenuParamListResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMenuParamList not implemented")
-}
-func (UnimplementedCoreServer) GetMenuParamById(context.Context, *IDReq) (*MenuParamInfo, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetMenuParamById not implemented")
-}
-func (UnimplementedCoreServer) DeleteMenuParam(context.Context, *IDsReq) (*BaseResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteMenuParam not implemented")
-}
 func (UnimplementedCoreServer) CreateOauthProvider(context.Context, *OauthProviderInfo) (*BaseIDResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOauthProvider not implemented")
 }
@@ -1021,9 +926,6 @@ func (UnimplementedCoreServer) DeleteRole(context.Context, *IDsReq) (*BaseResp, 
 }
 func (UnimplementedCoreServer) CreateToken(context.Context, *TokenInfo) (*BaseUUIDResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateToken not implemented")
-}
-func (UnimplementedCoreServer) UpdateToken(context.Context, *TokenInfo) (*BaseResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateToken not implemented")
 }
 func (UnimplementedCoreServer) DeleteToken(context.Context, *UUIDsReq) (*BaseResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteToken not implemented")
@@ -1572,96 +1474,6 @@ func _Core_GetMenuList_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Core_CreateMenuParam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MenuParamInfo)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).CreateMenuParam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/createMenuParam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).CreateMenuParam(ctx, req.(*MenuParamInfo))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Core_UpdateMenuParam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MenuParamInfo)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).UpdateMenuParam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/updateMenuParam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).UpdateMenuParam(ctx, req.(*MenuParamInfo))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Core_GetMenuParamList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MenuParamListReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).GetMenuParamList(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/getMenuParamList",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).GetMenuParamList(ctx, req.(*MenuParamListReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Core_GetMenuParamById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IDReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).GetMenuParamById(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/getMenuParamById",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).GetMenuParamById(ctx, req.(*IDReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Core_DeleteMenuParam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(IDsReq)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).DeleteMenuParam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/deleteMenuParam",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).DeleteMenuParam(ctx, req.(*IDsReq))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Core_CreateOauthProvider_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(OauthProviderInfo)
 	if err := dec(in); err != nil {
@@ -1986,24 +1798,6 @@ func _Core_CreateToken_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Core_UpdateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TokenInfo)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CoreServer).UpdateToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/core.Core/updateToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CoreServer).UpdateToken(ctx, req.(*TokenInfo))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Core_DeleteToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UUIDsReq)
 	if err := dec(in); err != nil {
@@ -2304,26 +2098,6 @@ var Core_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Core_GetMenuList_Handler,
 		},
 		{
-			MethodName: "createMenuParam",
-			Handler:    _Core_CreateMenuParam_Handler,
-		},
-		{
-			MethodName: "updateMenuParam",
-			Handler:    _Core_UpdateMenuParam_Handler,
-		},
-		{
-			MethodName: "getMenuParamList",
-			Handler:    _Core_GetMenuParamList_Handler,
-		},
-		{
-			MethodName: "getMenuParamById",
-			Handler:    _Core_GetMenuParamById_Handler,
-		},
-		{
-			MethodName: "deleteMenuParam",
-			Handler:    _Core_DeleteMenuParam_Handler,
-		},
-		{
 			MethodName: "createOauthProvider",
 			Handler:    _Core_CreateOauthProvider_Handler,
 		},
@@ -2394,10 +2168,6 @@ var Core_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "createToken",
 			Handler:    _Core_CreateToken_Handler,
-		},
-		{
-			MethodName: "updateToken",
-			Handler:    _Core_UpdateToken_Handler,
 		},
 		{
 			MethodName: "deleteToken",

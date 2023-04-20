@@ -275,10 +275,7 @@ func (ddc *DictionaryDetailCreate) createSpec() (*DictionaryDetail, *sqlgraph.Cr
 			Columns: []string{dictionarydetail.DictionariesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: &sqlgraph.FieldSpec{
-					Type:   field.TypeUint64,
-					Column: dictionary.FieldID,
-				},
+				IDSpec: sqlgraph.NewFieldSpec(dictionary.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -314,8 +311,8 @@ func (ddcb *DictionaryDetailCreateBulk) Save(ctx context.Context) ([]*Dictionary
 					return nil, err
 				}
 				builder.mutation = mutation
-				nodes[i], specs[i] = builder.createSpec()
 				var err error
+				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
 					_, err = mutators[i+1].Mutate(root, ddcb.builders[i+1].mutation)
 				} else {
