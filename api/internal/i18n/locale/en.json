@@ -18,7 +18,31 @@
 		"validationError": "Operation failed: Validation failed",
 		"notSingularError": "Operation failed: Data not unique"
 	},
+	"apiGroup":{
+		"member_rank": "Member Rank",
+		"member": "Member",
+		"tag": "Tag",
+		"file": "File",
+		"task_log": "Task Log",
+		"task": "Task",
+		"position": "Position",
+		"department": "Department",
+		"token": "Token",
+		"oauth": "Oauth",
+		"dictionary": "Dictionary",
+		"api": "API",
+		"authority": "Authority",
+		"captcha": "Captcha",
+		"menu": "Menu",
+		"role": "Role",
+		"user": "User"
+	},
 	"apiDesc": {
+		"createTag": "Create a tag",
+		"updateTag": "Update the tag",
+		"deleteTag": "Delete tags",
+		"getTagList": "Get tag list",
+		"getTagById": "Get tag by ID",
 		"userLogin": "Log in (Required)",
 		"userRegister": "Sign up (Required)",
 		"userChangePassword": "Change user's password",
@@ -42,7 +66,7 @@
 		"updateMenu": "Update menu information",
 		"menuInfo": "Get the menu information",
 		"menuList": "Get menu list",
-		"menuRoleList": "Get role's menu list",
+		"menuRoleList": "Get role's menu list (Required)",
 		"deleteMenu": "Delete menu information",
 		"roleMenu": "Get role's Menu List (Required)",
 		"createMenuParam": "Create menu parameters",
@@ -136,7 +160,8 @@
 		"roleManagementTitle": "Role",
 		"apiManagementTitle": "API",
 		"userManagementTitle": "User",
-		"fileManagementTitle": "File",
+		"fileManagement": "File",
+		"fileTagManagement": "File Tag",
 		"userProfileTitle": "Profile",
 		"dictionaryManagementTitle": "Dictionary",
 		"dictionaryDetailManagementTitle": "Key/Value Management",
@@ -190,8 +215,8 @@
 		"createAccount": "Please register an account with this email or bind the email to an account"
 	},
 	"casbin": {
-		"removeFailed": "Fail to remove old policies",
-		"addFailed": "Fail to add new policies"
+		"removeFailed": "Failed to remove old policies",
+		"addFailed": "Failed to add new policies"
 	},
 	"department": {
 		"managementDepartment": "Management Department",
@@ -200,5 +225,11 @@
 	"position": {
 		"userExistError": "There are users under this position, it is forbidden to delete.",
 		"ceo": "CEO"
+	},
+	"mcms": {
+		"email": {
+			"subject": "Verification Code for 【Simple Admin】",
+			"content": "Your verification code is: "
+		}
 	}
 }
